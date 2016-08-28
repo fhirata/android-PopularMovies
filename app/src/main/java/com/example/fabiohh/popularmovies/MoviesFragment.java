@@ -44,9 +44,10 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
     static final int MOVIE_ITEM_POSITION_CODE = 6767;
 
     // Preferences
-    static final int MOVIE_API_MODE_TOPRATED = 0;
-    static final int MOVIE_API_MODE_POPULAR = 1;
+    static final int MOVIE_API_MODE_POPULAR = 0;
+    static final int MOVIE_API_MODE_TOPRATED = 1;
     static final String MOVIE_API_PREFERENCE = "api_mode";
+    String movieApiUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,19 +62,20 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
         mImageAdapter = new ImageAdapter(getActivity(), new ArrayList<MovieItem>());
         gridview.setAdapter(mImageAdapter);
 
-        // Use last user's preference if available
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        if (preferences.contains(MOVIE_API_PREFERENCE)) {
-            mApiMode = preferences.getInt(MOVIE_API_PREFERENCE, MOVIE_API_MODE_TOPRATED);
-        }
-
         return rootView;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Use last user's preference if available
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if (preferences.contains(MOVIE_API_PREFERENCE)) {
+            mApiMode = preferences.getInt(MOVIE_API_PREFERENCE, MOVIE_API_MODE_TOPRATED);
+        }
+        updateData();
 
         setHasOptionsMenu(true);
     }
@@ -96,9 +98,21 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.edit().putInt(MOVIE_API_PREFERENCE, mApiMode).apply();
 
+        updateData();
+
         return super.onOptionsItemSelected(menuItem);
     }
 
+    private void updateData() {
+        if (mApiMode == MOVIE_API_MODE_TOPRATED) {
+            getActivity().setTitle(getString(R.string.app_name) + ": " + getString(R.string.top_rated));
+        } else {
+            getActivity().setTitle(getString(R.string.app_name) + ": " + getString(R.string.popular));
+        }
+
+        movieApiUrl = (mApiMode == MOVIE_API_MODE_TOPRATED) ?
+                MOVIE_TOP_RATED_API_URL : MOVIE_DISCOVER_API_URL;
+    }
     private class FetchMovieTask extends AsyncTask<String, Void, ArrayList<MovieItem>> implements IMovieInfo {
 
         private String LOG_TAG = FetchMovieTask.class.getSimpleName();
@@ -126,10 +140,7 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
                 throw new RuntimeException("Missing API Key. See README file.");
             }
 
-            String movie_api_url = (mApiMode == MOVIE_API_MODE_TOPRATED) ?
-                    MOVIE_TOP_RATED_API_URL : MOVIE_DISCOVER_API_URL;
-
-            Uri uri = Uri.parse(movie_api_url).buildUpon()
+            Uri uri = Uri.parse(movieApiUrl).buildUpon()
                     .appendQueryParameter(KEY_PARAM, key).build();
 
             Log.v("URI", "URI is " + uri.toString());
