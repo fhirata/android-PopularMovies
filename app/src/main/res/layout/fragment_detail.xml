@@ -1,5 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_layout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-</FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Mad Max"
+        android:background="#0b8070"
+        android:id="@+id/text_header_title"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
+        android:shadowColor="#323232" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:id="@+id/image_movie"
+        android:background="#000000"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="55dp"
+        android:layout_below="@+id/text_header_title"
+        android:layout_alignParentStart="true"
+        android:transitionName="posterTransition"
+        android:layout_marginStart="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2016"
+        android:textSize="18dp"
+        android:id="@+id/text_release_year"
+        android:layout_alignTop="@+id/image_movie"
+        android:layout_centerHorizontal="true"
+        android:autoText="true"
+        android:textStyle="bold"
+        android:clickable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_votes"
+        android:text="8.1/10"
+        android:layout_below="@+id/text_release_year"
+        android:layout_alignStart="@+id/text_release_year"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_mark_favorite"
+        android:text="Mark as Favorite"
+        android:textSize="12dp"
+        android:layout_below="@+id/text_votes"
+        android:layout_alignStart="@+id/text_votes"
+        android:layout_marginTop="10dp"
+        android:background="#afc3b1"
+        android:textColor="#252525" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="adfihj ijwojasj fwie faijfaso;hfsofns ofhsojf sjfishfow fiahsfoijsofhsfhwefj awjfp oja sfjafjwehfo f'aspfjowiejfo"
+        android:textSize="12dp"
+        android:id="@+id/text_desc"
+        android:lines="4"
+        android:layout_below="@+id/image_movie"
+        android:layout_alignStart="@+id/image_movie"
+        android:layout_marginTop="15dp" />
+
+
+</RelativeLayout>
