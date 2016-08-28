@@ -4,10 +4,11 @@
     android:layout_width="match_parent">
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/grid_item_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/image_movie"
         android:scaleType="fitCenter"
-        android:background="#000000" />
+        android:transitionName="posterTransition"
+        android:background="#000000"/>
 
 </FrameLayout>

@@ -1,7 +1,7 @@
 package com.example.fabiohh.popularmovies;
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.fabiohh.popularmovies.models.IMovieInfo;
 import com.example.fabiohh.popularmovies.models.MovieItem;
 
 import org.json.JSONArray;
@@ -28,12 +29,13 @@ import java.util.ArrayList;
 /**
  * Created by fabiohh on 8/23/16.
  */
-@TargetApi(11)
-public class TitlesFragment extends Fragment {
+public class MoviesFragment extends Fragment {
 
-    static final String MOVIE_API_URL   = "http://api.themoviedb.org/3/discover/movie";
-    static final String MOVIE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
+    static final String MOVIE_DISCOVER_API_URL    = "http://api.themoviedb.org/3/discover/movie";
+    static final String MOVIE_TOP_RATED_API_URL   = "http://api.themoviedb.org/3/movie/top_rated";
+    static final String MOVIE_IMAGE_URL = "http://image.tmdb.org/t/p/w185";
 
+    static final int MOVIE_ITEM_POSITION_CODE = 6767;
     ImageAdapter mImageAdapter;
 
     @Override
@@ -42,7 +44,7 @@ public class TitlesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         GridView gridview = (GridView) rootView.findViewById(R.id.grid_movies);
 
-        FetchMovieTitleTask moviesTitleTask = new FetchMovieTitleTask();
+        FetchMovieTask moviesTitleTask = new FetchMovieTask();
         moviesTitleTask.execute();
 
         mImageAdapter = new ImageAdapter(getActivity(), new ArrayList<MovieItem>());
@@ -51,10 +53,17 @@ public class TitlesFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MOVIE_ITEM_POSITION_CODE) {
 
-    private class FetchMovieTitleTask extends AsyncTask<String, Void, ArrayList<MovieItem>> {
 
-        private String LOG_TAG = FetchMovieTitleTask.class.getSimpleName();
+        }
+    }
+
+    private class FetchMovieTask extends AsyncTask<String, Void, ArrayList<MovieItem>> implements IMovieInfo {
+
+        private String LOG_TAG = FetchMovieTask.class.getSimpleName();
         private String KEY_PARAM = "api_key";
 
         @Override
@@ -79,7 +88,10 @@ public class TitlesFragment extends Fragment {
                 throw new RuntimeException("Missing API Key. See README file.");
             }
 
-            Uri uri = Uri.parse(MOVIE_API_URL).buildUpon()
+
+            String movie_api_url = MOVIE_DISCOVER_API_URL;
+
+            Uri uri = Uri.parse(movie_api_url).buildUpon()
                     .appendQueryParameter(KEY_PARAM, key).build();
 
             Log.v("URI", "URI is " + uri.toString());
@@ -141,14 +153,6 @@ public class TitlesFragment extends Fragment {
         private ArrayList<MovieItem> getMovieDataFromJson(String movieJsonStr)
                 throws JSONException {
 
-            // These are the names of the JSON objects that need to be extracted.
-            final String MOVIE_RESULTS    = "results";
-            final String MOVIE_TITLE      = "title";
-            final String MOVIE_IMAGE      = "poster_path";
-            final String MOVIE_DESC       = "overview";
-            final String MOVIE_VOTE_COUNT = "vote_count";
-            final String MOVIE_VOTE_AVG   = "vote_average";
-
             JSONObject moviesJSONObject = new JSONObject(movieJsonStr);
             JSONArray moviesArray = moviesJSONObject.getJSONArray(MOVIE_RESULTS);
 
@@ -162,8 +166,9 @@ public class TitlesFragment extends Fragment {
                 String description = movieObject.getString(MOVIE_DESC);
                 String voteAverage = movieObject.getString(MOVIE_VOTE_AVG);
                 String voteCount   = movieObject.getString(MOVIE_VOTE_COUNT);
+                String releaseYear = movieObject.getString(MOVIE_YEAR);
 
-                movieItemInfoResult.add(new MovieItem(title, description, voteAverage, voteCount, imgUrl));
+                movieItemInfoResult.add(new MovieItem(title, description, voteAverage, voteCount, imgUrl, releaseYear));
             }
             return movieItemInfoResult;
         }
