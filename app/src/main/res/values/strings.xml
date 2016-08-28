@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Popular Movies</string>
-    <string name="movie_detail">Detail</string>
-    <string name="popular">Popular</string>
-    <string name="top_rated">Top Rated</string>
+    <string name="app_name" translatable="true">Movies</string>
+    <string name="movie_detail" translatable="true">Detail</string>
+    <string name="popular" translatable="true">Popular</string>
+    <string name="top_rated" translatable="true">Top Rated</string>
+    <string name="movies" translatable="true">Movies</string>
 </resources>
