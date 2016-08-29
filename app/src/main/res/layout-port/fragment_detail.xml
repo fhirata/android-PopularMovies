@@ -7,66 +7,67 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:background="#ffffff">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/text_header_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:background="#0b8070"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:shadowColor="#323232"
-            android:text="Select a movie"
+            android:text="Mad Max"
             android:textColor="#FFFFFF"
             android:textSize="25dp" />
 
         <ImageView
             android:id="@+id/image_movie"
-            android:layout_width="180dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="27dp"
-            android:background="#f4f4f4"
-            android:scaleType="fitCenter"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/text_header_title"
-            android:layout_alignParentStart="true" />
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="55dp"
+            android:background="#000000"
+            android:scaleType="fitCenter"
+            android:transitionName="posterTransition" />
 
         <TextView
             android:id="@+id/text_release_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/image_movie"
+            android:layout_centerHorizontal="true"
             android:autoText="true"
             android:clickable="false"
+            android:text="2016"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_alignTop="@+id/image_movie"
-            android:layout_toEndOf="@+id/image_movie"
-            android:layout_marginStart="31dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_votes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_release_year"
             android:layout_alignStart="@+id/text_release_year"
-            android:layout_marginTop="15dp" />
+            android:layout_below="@+id/text_release_year"
+            android:layout_marginTop="10dp"
+            android:text="8.1/10" />
 
         <TextView
             android:id="@+id/text_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="4"
-            android:textSize="11dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/image_movie"
             android:layout_alignStart="@+id/image_movie"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp" />
+            android:layout_below="@+id/image_movie"
+            android:layout_marginTop="15dp"
+            android:lines="4"
+            android:text="adfihj ijwojasj fwie faijfaso;hfsofns ofhsojf sjfishfow fiahsfoijsofhsfhwefj awjfp oja sfjafjwehfo f'aspfjowiejfo"
+            android:textSize="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp" />
 
     </RelativeLayout>
 </ScrollView>

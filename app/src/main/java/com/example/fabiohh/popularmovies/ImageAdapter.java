@@ -66,16 +66,20 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                intent.putStringArrayListExtra("movie", mMovieItems.get(position).getMovieItemAsList());
-                intent.putExtra("scroll_position", position);
+                if (((Activity) mContext).findViewById(R.id.container) != null) {
+                    Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                    intent.putStringArrayListExtra("movie", mMovieItems.get(position).getMovieItemAsList());
+                    intent.putExtra("scroll_position", position);
 
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(((Activity) mContext), imageView1, "posterTransition");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(((Activity) mContext), imageView1, "posterTransition");
 
-                ((Activity) mContext).startActivityForResult(intent,
-                        MoviesFragment.MOVIE_ITEM_POSITION_CODE,
-                        options.toBundle());
+                    ((Activity) mContext).startActivityForResult(intent,
+                            MoviesFragment.MOVIE_ITEM_POSITION_CODE,
+                            options.toBundle());
+                } else {
+                    ((MainActivity) mContext).onMovieSelected(position, mMovieItems.get(position));
+                }
             }
         });
         Glide

@@ -16,8 +16,11 @@ public class DetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState != null) {
+            return;
+        }
 
+        if (findViewById(R.id.detail_container) != null) {
             DetailFragment detailFragment = new DetailFragment();
             detailFragment.setArguments(getIntent().getExtras());
             getFragmentManager().beginTransaction()
