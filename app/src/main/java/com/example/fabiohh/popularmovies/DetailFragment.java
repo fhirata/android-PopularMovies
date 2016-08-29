@@ -2,6 +2,7 @@ package com.example.fabiohh.popularmovies;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,30 +27,38 @@ public class DetailFragment extends Fragment {
         Intent intent = getActivity().getIntent();
 
         if (intent == null || !intent.hasExtra("movie")) {
-            return null;
+            return rootView;
         }
 
-        ArrayList<String> movie = intent.getExtras().getStringArrayList("movie");
-        MovieItem movieItem = new MovieItem(movie);
-
-        TextView yearTextView = (TextView) rootView.findViewById(R.id.text_release_year);
-        yearTextView.setText(movieItem.getReleaseYear());
-
-        TextView voteTextView = (TextView) rootView.findViewById(R.id.text_votes);
-        voteTextView.setText(movieItem.getAverageVote()+"/10 (" + movieItem.getVoteCount() + " votes)");
-
-        TextView descTextView = (TextView) rootView.findViewById(R.id.text_desc);
-        descTextView.setText(movieItem.getDescription());
-
-        TextView headerTitleTextView = (TextView) rootView.findViewById(R.id.text_header_title);
-        headerTitleTextView.setText(movieItem.getTitle());
-
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.image_movie);
-        Glide.with(this)
-             .load(movieItem.getImgUrl())
-             .into(imageView);
+        ArrayList<String> movieArrayList = intent.getExtras().getStringArrayList("movie");
+        updateMovieDetail(new MovieItem(movieArrayList), rootView);
 
         return rootView;
     }
 
+    public void updateMovieDetail(MovieItem movieItem, View view) {
+        TextView yearTextView = (TextView) view.findViewById(R.id.text_release_year);
+        yearTextView.setText(movieItem.getReleaseYear());
+
+        TextView voteTextView = (TextView) view.findViewById(R.id.text_votes);
+        voteTextView.setText(movieItem.getAverageVote() + "/10 (" + movieItem.getVoteCount() + " votes)");
+
+        TextView descTextView = (TextView) view.findViewById(R.id.text_desc);
+        descTextView.setText(movieItem.getDescription());
+
+        TextView headerTitleTextView = (TextView) view.findViewById(R.id.text_header_title);
+        headerTitleTextView.setText(movieItem.getTitle());
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ImageView imageView = (ImageView) view.findViewById(R.id.image_movie);
+            Glide.with(this)
+                    .load(movieItem.getImgUrl())
+                    .into(imageView);
+        } else {
+            ImageView imageView = (ImageView) view.findViewById(R.id.image_movie);
+            Glide.with(this)
+                    .load(movieItem.getBackDropUrl())
+                    .into(imageView);
+        }
+    }
 }

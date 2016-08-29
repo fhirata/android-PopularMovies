@@ -216,8 +216,9 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
                 String voteAverage = movieObject.getString(MOVIE_VOTE_AVG);
                 String voteCount = movieObject.getString(MOVIE_VOTE_COUNT);
                 String releaseYear = movieObject.getString(MOVIE_YEAR);
+                String backDrop = buildImageURL(movieObject.getString(MOVIE_BACKDROP));
 
-                movieItemInfoResult.add(new MovieItem(title, description, voteAverage, voteCount, imgUrl, releaseYear));
+                movieItemInfoResult.add(new MovieItem(title, description, voteAverage, voteCount, imgUrl, releaseYear, backDrop));
             }
             return movieItemInfoResult;
         }

@@ -22,17 +22,19 @@ public class MovieItem {
     private double   mVoteAverage;
     private Date     mReleaseDate;
     private int      mDuration;
+    private String mBackDropUrl;
 
     static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
     static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
-    public MovieItem(String title, String description, String voteAverage, String voteCount, String imgUrl, String releaseDate) {
+    public MovieItem(String title, String description, String voteAverage, String voteCount, String imgUrl, String releaseDate, String backDrop) {
         setImgUrl(imgUrl);
         setTitle(title);
         setDescription(description);
         setAverageVote(voteAverage);
         setVoteCount(voteCount);
         setReleaseDate(releaseDate);
+        setBackDropUrl(backDrop);
     }
 
     public MovieItem(ArrayList<String> movieData) {
@@ -42,6 +44,7 @@ public class MovieItem {
         setAverageVote(movieData.get(3));
           setVoteCount(movieData.get(4));
         setReleaseDate(movieData.get(5));
+           setBackDropUrl(movieData.get(6));
     }
 
     public void setTitle(String title) {
@@ -70,6 +73,7 @@ public class MovieItem {
         return "(Unknown)";
     }
 
+
     public void setReleaseDate(String releaseDate) {
         try {
 
@@ -78,6 +82,15 @@ public class MovieItem {
             Log.e(TAG, "Failed to parse full date: " + dpe.getMessage());
         }
     }
+
+    public String getBackDropUrl() {
+        return mBackDropUrl;
+    }
+
+    public void setBackDropUrl(String mBackDrop) {
+        this.mBackDropUrl = mBackDrop;
+    }
+
 
     public String getImgUrl() {
         return mImgUrl;
@@ -119,6 +132,7 @@ public class MovieItem {
         movieAsList.add(getAverageVote());
         movieAsList.add(getVoteCount());
         movieAsList.add(getReleaseDate());
+        movieAsList.add(getBackDropUrl());
 
         return movieAsList;
     }

@@ -12,4 +12,5 @@ public interface IMovieInfo {
     String MOVIE_VOTE_COUNT = "vote_count";
     String MOVIE_VOTE_AVG = "vote_average";
     String MOVIE_YEAR = "release_date";
+    String MOVIE_BACKDROP = "backdrop_path";
 }
