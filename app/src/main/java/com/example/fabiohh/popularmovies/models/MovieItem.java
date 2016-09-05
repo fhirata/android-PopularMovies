@@ -1,5 +1,7 @@
 package com.example.fabiohh.popularmovies.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -10,8 +12,11 @@ import java.util.Date;
 
 /**
  * Created by fabiohh on 8/25/16.
+ * Implements Parcelable - the Parcelable interface allows your classes to be
+ * flattened inside a message container called a Parcel to facilitate high
+ * performance inter process communication.
  */
-public class MovieItem {
+public class MovieItem implements Parcelable {
 
     private static String TAG = MovieItem.class.getSimpleName();
 
@@ -38,13 +43,7 @@ public class MovieItem {
     }
 
     public MovieItem(ArrayList<String> movieData) {
-              setTitle(movieData.get(0));
-             setImgUrl(movieData.get(1));
-        setDescription(movieData.get(2));
-        setAverageVote(movieData.get(3));
-          setVoteCount(movieData.get(4));
-        setReleaseDate(movieData.get(5));
-           setBackDropUrl(movieData.get(6));
+
     }
 
     public void setTitle(String title) {
@@ -55,13 +54,13 @@ public class MovieItem {
         return mTitle;
     }
 
-    public String getReleaseDate()
-    {
-        if (this.mReleaseDate != null) {
-            return dateFormat.format(this.mReleaseDate);
-        }
-        return "(Unknown)";
-    }
+//    public String getReleaseDate()
+//    {
+//        if (this.mReleaseDate != null) {
+//            return dateFormat.format(this.mReleaseDate);
+//        }
+//        return "(Unknown)";
+//    }
 
     public String getReleaseYear()
     {
@@ -124,16 +123,48 @@ public class MovieItem {
         this.mVoteAverage = Double.valueOf(averageVote);
     }
 
-    public ArrayList<String> getMovieItemAsList() {
-        ArrayList<String> movieAsList = new ArrayList<>();
-        movieAsList.add(getTitle());
-        movieAsList.add(getImgUrl());
-        movieAsList.add(getDescription());
-        movieAsList.add(getAverageVote());
-        movieAsList.add(getVoteCount());
-        movieAsList.add(getReleaseDate());
-        movieAsList.add(getBackDropUrl());
+    // Parcelable pattern implementation
+    public MovieItem(Parcel in) {
+        readFromParcel(in);
+    }
+    public static final String PARCELABLE_KEY = "movie";
 
-        return movieAsList;
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(mTitle);
+        out.writeString(mImgUrl);
+        out.writeString(mDescription);
+        out.writeInt(mVoteCount);
+        out.writeDouble(mVoteAverage);
+        out.writeSerializable(mReleaseDate);
+        out.writeInt(mDuration);
+        out.writeString(mBackDropUrl);
+    }
+
+    private void readFromParcel(Parcel in) {
+        mTitle = in.readString();
+        mImgUrl = in.readString();
+        mDescription = in.readString();
+        mVoteCount = in.readInt();
+        mVoteAverage = in.readDouble();
+        mReleaseDate = (Date) in.readSerializable();
+        mDuration = in.readInt();
+        mBackDropUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<MovieItem> CREATOR = new Parcelable.Creator() {
+
+        public MovieItem createFromParcel(Parcel in) {
+            return new MovieItem(in);
+        }
+
+        public MovieItem[] newArray(int size) {
+            return new MovieItem[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
