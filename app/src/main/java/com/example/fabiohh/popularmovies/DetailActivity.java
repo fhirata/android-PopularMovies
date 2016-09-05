@@ -23,6 +23,7 @@ public class DetailActivity extends AppCompatActivity {
         if (findViewById(R.id.detail_container) != null) {
             DetailFragment detailFragment = new DetailFragment();
             detailFragment.setArguments(getIntent().getExtras());
+
             getFragmentManager().beginTransaction()
                     .add(R.id.detail_container, new DetailFragment())
                     .commit();

@@ -21,9 +21,11 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<MovieItem> mMovieItems;
+    private Activity mActivity;
 
     public ImageAdapter(Context c, ArrayList<MovieItem> movieItems) {
         mContext = c;
+        mActivity = (Activity) c;
         mMovieItems = movieItems;
     }
 
@@ -54,7 +56,7 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
-            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+            LayoutInflater inflater = mActivity.getLayoutInflater();
             View view = inflater.inflate(R.layout.grid_item, parent, false);
             imageView = (ImageView) view.findViewById(R.id.image_movie);
         } else {
@@ -66,15 +68,15 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (((Activity) mContext).findViewById(R.id.container) != null) {
+                if (mActivity.findViewById(R.id.container) != null) {
                     Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                    intent.putStringArrayListExtra("movie", mMovieItems.get(position).getMovieItemAsList());
+                    intent.putExtra(MovieItem.PARCELABLE_KEY, mMovieItems.get(position));
                     intent.putExtra("scroll_position", position);
 
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(((Activity) mContext), imageView1, "posterTransition");
+                            makeSceneTransitionAnimation(mActivity, imageView1, "posterTransition");
 
-                    ((Activity) mContext).startActivityForResult(intent,
+                    mActivity.startActivityForResult(intent,
                             MoviesFragment.MOVIE_ITEM_POSITION_CODE,
                             options.toBundle());
                 } else {
