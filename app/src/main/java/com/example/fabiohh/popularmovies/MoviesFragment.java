@@ -1,7 +1,10 @@
 package com.example.fabiohh.popularmovies;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.fabiohh.popularmovies.models.IMovieInfo;
 import com.example.fabiohh.popularmovies.models.MovieItem;
@@ -55,9 +59,6 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         GridView gridview = (GridView) rootView.findViewById(R.id.grid_movies);
 
-        FetchMovieTask moviesTitleTask = new FetchMovieTask();
-        moviesTitleTask.execute();
-
         mInflater = inflater;
         mImageAdapter = new ImageAdapter(getActivity(), new ArrayList<MovieItem>());
         gridview.setAdapter(mImageAdapter);
@@ -92,18 +93,26 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
                 mApiMode = MOVIE_API_MODE_TOPRATED;
                 break;
         }
-        FetchMovieTask moviesTitleTask = new FetchMovieTask();
-        moviesTitleTask.execute();
+        updateData();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.edit().putInt(MOVIE_API_PREFERENCE, mApiMode).apply();
 
-        updateData();
-
         return super.onOptionsItemSelected(menuItem);
     }
 
+    public boolean networkConnected() {
+        ConnectivityManager conMgr = (ConnectivityManager) getActivity().getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+
+        return netInfo != null && netInfo.isAvailable() && netInfo.isConnectedOrConnecting();
+    }
+
     private void updateData() {
+
         if (mApiMode == MOVIE_API_MODE_TOPRATED) {
             getActivity().setTitle(getString(R.string.app_name) + ": " + getString(R.string.top_rated));
         } else {
@@ -112,6 +121,13 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
 
         movieApiUrl = (mApiMode == MOVIE_API_MODE_TOPRATED) ?
                 MOVIE_TOP_RATED_API_URL : MOVIE_DISCOVER_API_URL;
+
+        if (networkConnected()) {
+            FetchMovieTask moviesTitleTask = new FetchMovieTask();
+            moviesTitleTask.execute();
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection.  Please check your connection and try again.", Toast.LENGTH_SHORT).show();
+        }
     }
     private class FetchMovieTask extends AsyncTask<String, Void, ArrayList<MovieItem>> implements IMovieInfo {
 
@@ -195,6 +211,7 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
             } catch (JSONException jsonException) {
                 Log.e(LOG_TAG, jsonException.getMessage(), jsonException);
                 jsonException.printStackTrace();
+                Toast.makeText(getActivity().getApplicationContext(), "Unable to Read movie information.  Message: " + jsonException.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
             return null;
         }
