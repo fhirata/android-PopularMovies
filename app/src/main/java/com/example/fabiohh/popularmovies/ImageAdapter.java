@@ -54,18 +54,24 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        ImageView imageView;
+
+        ViewHolderItem viewHolder;
+
         if (convertView == null) {
             LayoutInflater inflater = mActivity.getLayoutInflater();
-            View view = inflater.inflate(R.layout.grid_item, parent, false);
-            imageView = (ImageView) view.findViewById(R.id.image_movie);
+            convertView = inflater.inflate(R.layout.grid_item, parent, false);
+
+            viewHolder = new ViewHolderItem();
+            viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.image_movie);
+
+            convertView.setTag(viewHolder);
         } else {
-            imageView = (ImageView) convertView;
+            viewHolder = (ViewHolderItem) convertView.getTag();
         }
 
-        final ImageView imageView1 = imageView;
+        final ImageView imageView1 = viewHolder.imageViewItem;
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.imageViewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mActivity.findViewById(R.id.container) != null) {
@@ -88,8 +94,12 @@ public class ImageAdapter extends BaseAdapter {
                 .with(mContext)
                 .load(mMovieItems.get(position).getImgUrl())
                 .dontAnimate()
-                .into(imageView);
+                .into(viewHolder.imageViewItem);
 
-        return imageView;
+        return convertView;
+    }
+
+    static class ViewHolderItem {
+        ImageView imageViewItem;
     }
 }
