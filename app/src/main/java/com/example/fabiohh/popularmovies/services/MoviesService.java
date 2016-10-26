@@ -47,12 +47,13 @@ public class MoviesService extends AsyncTask<String, Void, ArrayList<MovieItem>>
 
         if (movieItems != null && movieItems.size() > 0) {
             mImageAdapter.setData(movieItems);
+            super.onPostExecute(movieItems);
+            return;
         }
 
         if (context instanceof MainActivity) {
             ((MainActivity) context).handleNoAPIResponse();
         }
-
         super.onPostExecute(movieItems);
     }
 
@@ -101,7 +102,7 @@ public class MoviesService extends AsyncTask<String, Void, ArrayList<MovieItem>>
             }
             movieJsonStr = buffer.toString();
 
-            Log.w("Content: ", movieJsonStr);
+            //Log.w("Content: ", movieJsonStr);
 
         } catch (IOException e) {
             Log.e("PlaceholderFragment", "Error ", e);
