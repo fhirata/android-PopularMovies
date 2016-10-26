@@ -66,6 +66,7 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
         setHasOptionsMenu(true);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -103,6 +104,7 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
         return netInfo != null && netInfo.isAvailable() && netInfo.isConnectedOrConnecting();
     }
 
+
     private void updateData() {
 
         if (mApiMode == MOVIE_API_MODE_TOPRATED) {
@@ -115,13 +117,12 @@ public class MoviesFragment extends Fragment implements Preference.OnPreferenceC
                 MOVIE_TOP_RATED_API_URL : MOVIE_DISCOVER_API_URL;
 
         if (networkConnected()) {
-            MoviesService moviesService = new MoviesService(getActivity().getApplicationContext(), movieApiUrl, mImageAdapter);
+            MoviesService moviesService = new MoviesService(getActivity(), movieApiUrl, mImageAdapter);
             moviesService.execute();
         } else {
             Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection.  Please check your connection and try again.", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {

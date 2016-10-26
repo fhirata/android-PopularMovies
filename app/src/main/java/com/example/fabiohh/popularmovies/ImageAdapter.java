@@ -30,9 +30,10 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        if (mMovieItems != null) {
+        if (mMovieItems != null && mMovieItems.size() > 0) {
             return mMovieItems.size();
         }
+
         return 0;
     }
 
