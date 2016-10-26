@@ -1,8 +1,39 @@
+yala.xml
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Gradle files
+.gradle/
+build/
+/*/build/
+
+/cur_version
+/tmp
+
+# IntelliJ workspace
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+
+# Gradle temporary things.
+.gradle/
+
+# Log Files
+*.log
+
+local.properties
+
+# OSX meta files
 .DS_Store
-/build
-/captures
+
