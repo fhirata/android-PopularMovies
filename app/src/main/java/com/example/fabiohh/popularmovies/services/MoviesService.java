@@ -4,9 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.fabiohh.popularmovies.ImageAdapter;
+import com.example.fabiohh.popularmovies.MainActivity;
 import com.example.fabiohh.popularmovies.R;
 import com.example.fabiohh.popularmovies.models.IMovieInfo;
 import com.example.fabiohh.popularmovies.models.MovieItem;
@@ -45,8 +45,12 @@ public class MoviesService extends AsyncTask<String, Void, ArrayList<MovieItem>>
     @Override
     protected void onPostExecute(ArrayList<MovieItem> movieItems) {
 
-        if (movieItems != null) {
+        if (movieItems != null && movieItems.size() > 0) {
             mImageAdapter.setData(movieItems);
+        }
+
+        if (context instanceof MainActivity) {
+            ((MainActivity) context).handleNoAPIResponse();
         }
 
         super.onPostExecute(movieItems);
@@ -115,17 +119,13 @@ public class MoviesService extends AsyncTask<String, Void, ArrayList<MovieItem>>
             }
         }
         try {
-            if (movieJsonStr != null) {
-                return getMovieDataFromJson(movieJsonStr);
-            } else {
-                Log.e(LOG_TAG, "Movie data is empty.");
-            }
+            return getMovieDataFromJson(movieJsonStr);
         } catch (JSONException jsonException) {
             Log.e(LOG_TAG, jsonException.getMessage(), jsonException);
             jsonException.printStackTrace();
-            Toast.makeText(context.getApplicationContext(), "Unable to Read movie information.  Message: " + jsonException.getMessage().toString(), Toast.LENGTH_SHORT).show();
         }
-        return null;
+
+        return new ArrayList<>();
     }
 
     private ArrayList<MovieItem> getMovieDataFromJson(String movieJsonStr)
@@ -159,4 +159,6 @@ public class MoviesService extends AsyncTask<String, Void, ArrayList<MovieItem>>
     private String buildImageURL(String imageUrl) {
         return MOVIE_IMAGE_URL + imageUrl;
     }
+
+    public class NoAPIResponseException extends Exception {}
 }

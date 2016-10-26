@@ -1,6 +1,8 @@
 package com.example.fabiohh.popularmovies;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
@@ -52,5 +54,16 @@ public class MainActivity extends AppCompatActivity {
             // Call a method in the ArticleFragment to update its content
             detailFragmentLandscape.updateMovieDetail(movieItem, detailFragmentLandscape.getView());
         }
+    }
+
+    public void handleNoAPIResponse() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.no_api_response)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+        builder.show();
     }
 }
