@@ -3,6 +3,7 @@ package com.example.fabiohh.popularmovies;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.fabiohh.popularmovies.db.MovieContentManager;
 import com.example.fabiohh.popularmovies.models.MovieItem;
 
 /**
@@ -24,13 +26,12 @@ public class DetailFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
 
-        if (intent == null || !intent.hasExtra(MovieItem.PARCELABLE_KEY)) {
+        if (intent == null || !intent.hasExtra("movie_item_uri")) {
             return rootView;
         }
 
-        Bundle bundle = intent.getExtras();
-
-        MovieItem movieItem = (MovieItem) bundle.getParcelable(MovieItem.PARCELABLE_KEY);
+        Uri uri = intent.getParcelableExtra("movie_item_uri");
+        MovieItem movieItem = MovieContentManager.getMovieItem(getContext(), uri);
         updateMovieDetail(movieItem, rootView);
 
         return rootView;

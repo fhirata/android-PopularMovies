@@ -1,8 +1,9 @@
 package com.example.fabiohh.popularmovies.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.database.Cursor;
 import android.util.Log;
+
+import com.example.fabiohh.popularmovies.db.MovieContract;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +17,7 @@ import java.util.Date;
  * flattened inside a message container called a Parcel to facilitate high
  * performance inter process communication.
  */
-public class MovieItem implements Parcelable {
+public class MovieItem {
 
     private static String TAG = MovieItem.class.getSimpleName();
 
@@ -40,6 +41,10 @@ public class MovieItem implements Parcelable {
         setVoteCount(voteCount);
         setReleaseDate(releaseDate);
         setBackDropUrl(backDrop);
+    }
+
+    public MovieItem() {
+
     }
 
     public MovieItem(ArrayList<String> movieData) {
@@ -123,48 +128,25 @@ public class MovieItem implements Parcelable {
         this.mVoteAverage = Double.valueOf(averageVote);
     }
 
-    // Parcelable pattern implementation
-    public MovieItem(Parcel in) {
-        readFromParcel(in);
-    }
-    public static final String PARCELABLE_KEY = "movie";
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeString(mTitle);
-        out.writeString(mImgUrl);
-        out.writeString(mDescription);
-        out.writeInt(mVoteCount);
-        out.writeDouble(mVoteAverage);
-        out.writeSerializable(mReleaseDate);
-        out.writeInt(mDuration);
-        out.writeString(mBackDropUrl);
+    public int getDuration() {
+        return mDuration;
     }
 
-    private void readFromParcel(Parcel in) {
-        mTitle = in.readString();
-        mImgUrl = in.readString();
-        mDescription = in.readString();
-        mVoteCount = in.readInt();
-        mVoteAverage = in.readDouble();
-        mReleaseDate = (Date) in.readSerializable();
-        mDuration = in.readInt();
-        mBackDropUrl = in.readString();
+    public void setDuration(int mDuration) {
+        this.mDuration = mDuration;
     }
 
-    public static final Parcelable.Creator<MovieItem> CREATOR = new Parcelable.Creator() {
+    public static MovieItem fromCursor(Cursor cursor) {
+        MovieItem item = new MovieItem();
 
-        public MovieItem createFromParcel(Parcel in) {
-            return new MovieItem(in);
-        }
+        item.setTitle(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_NAME)));
+        item.setImgUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_URL)));
+        item.setDescription(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_SYNOPSIS)));
+        item.setVoteCount(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_COUNT)));
+        item.setAverageVote(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE)));
+        item.setReleaseDate(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)));
+        item.setBackDropUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_BACKDROP_URL)));
 
-        public MovieItem[] newArray(int size) {
-            return new MovieItem[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+        return item;
     }
 }
