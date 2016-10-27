@@ -1,6 +1,7 @@
 package com.example.fabiohh.popularmovies;
 
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onMovieSelected(int position, MovieItem movieItem) {
+    public void onMovieSelected(int position, Cursor cursor) {
         // The user selected a movie item
 
         // Capture the detail fragment from the activity layout
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             // DetailFragment frag is available, so we're in two-pane layout.
 
             // Call a method in the ArticleFragment to update its content
-            detailFragmentLandscape.updateMovieDetail(movieItem, detailFragmentLandscape.getView());
+            detailFragmentLandscape.updateMovieDetail(MovieItem.fromCursor(cursor), detailFragmentLandscape.getView());
         }
     }
 

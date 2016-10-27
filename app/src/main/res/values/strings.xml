@@ -3,7 +3,9 @@
     <string name="movie_detail" translatable="true">Detail</string>
     <string name="popular" translatable="true">Popular</string>
     <string name="top_rated" translatable="true">Top Rated</string>
+    <string name="favorite" translatable="true">Favorite</string>
     <string name="movies" translatable="true">Movies</string>
     <string name="no_api_response" translatable="true">"No Response from API.  Please check network connection."</string>
     <string name="ok" translatable="true">Ok</string>
+    <string name="content_authority">com.example.fabiohh.popularmovies</string>
 </resources>
