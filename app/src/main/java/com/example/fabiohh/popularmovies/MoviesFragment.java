@@ -20,11 +20,14 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.fabiohh.popularmovies.adapters.MovieAdapter;
 import com.example.fabiohh.popularmovies.db.MovieContract;
 import com.example.fabiohh.popularmovies.services.MoviesService;
 
 /**
  * Created by fabiohh on 8/23/16.
+ * reference for Loader:
+ * http://stackoverflow.com/questions/25208402/getloadermanager-initloader-doesnt-accept-this-as-argument-though-the-cla
  */
 public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Preference.OnPreferenceChangeListener {
     MovieAdapter movieAdapter;
@@ -33,12 +36,17 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final int MOVIE_LOADER = 1;
 
-    static final int MOVIE_ITEM_POSITION_CODE = 6767;
+    public static final int MOVIE_ITEM_POSITION_CODE = 6767;
 
-    // Preferences
+    // API Modes
     public static final String MOVIE_FETCH_MODE_POPULAR = "popular";
     public static final String MOVIE_FETCH_MODE_TOPRATED = "toprated";
     public static final String MOVIE_FETCH_MODE_FAVORITE = "favorite";
+
+    // Detail Fragment API Modes
+    public static final String MOVIE_FETCH_MODE_REVIEWS = "reviews";
+    public static final String MOVIE_FETCH_MODE_TRAILERS = "trailers";
+
     static final String MOVIE_API_PREFERENCE = "api_mode";
     String movieApiUrl;
 
@@ -51,11 +59,11 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
             MovieContract.MovieEntry.COLUMN_POSTER_BITMAP
     };
 
-    static final int COL_ID = 0;
-    static final int COL_MOVIE_ID = 1;
-    static final int COL_POSTER_URL = 2;
-    static final int COL_FAVORITE = 3;
-    static final int COL_POSTER_BITMAP = 4;
+    public static final int COL_ID = 0;
+    public static final int COL_MOVIE_ID = 1;
+    public static final int COL_POSTER_URL = 2;
+    public static final int COL_FAVORITE = 3;
+    public static final int COL_POSTER_BITMAP = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

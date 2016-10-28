@@ -8,7 +8,7 @@ import android.widget.ImageView;
  */
 
 public class MovieViewHolder {
-    ImageView imageViewItem;
+    public ImageView imageViewItem;
 
     public MovieViewHolder(View view) {
         imageViewItem = (ImageView) view.findViewById(R.id.image_movie);
