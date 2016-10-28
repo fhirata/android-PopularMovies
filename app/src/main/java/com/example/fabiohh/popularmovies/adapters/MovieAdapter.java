@@ -1,4 +1,4 @@
-package com.example.fabiohh.popularmovies;
+package com.example.fabiohh.popularmovies.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.fabiohh.popularmovies.DetailActivity;
+import com.example.fabiohh.popularmovies.MainActivity;
+import com.example.fabiohh.popularmovies.MovieViewHolder;
+import com.example.fabiohh.popularmovies.MoviesFragment;
+import com.example.fabiohh.popularmovies.R;
 import com.example.fabiohh.popularmovies.db.MovieContract;
 
 import static com.example.fabiohh.popularmovies.MoviesFragment.COL_MOVIE_ID;
@@ -20,10 +25,10 @@ import static com.example.fabiohh.popularmovies.MoviesFragment.COL_MOVIE_ID;
 /**
  * Created by fabiohh on 10/26/16.
  */
-class MovieAdapter extends CursorAdapter {
+public class MovieAdapter extends CursorAdapter {
     Activity mActivity;
 
-    MovieAdapter(Context context, Cursor c, int flags) {
+    public MovieAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
         this.mActivity = (Activity) context;
     }

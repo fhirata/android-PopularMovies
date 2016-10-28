@@ -20,6 +20,11 @@ import static com.example.fabiohh.popularmovies.db.MovieContract.TOP_RATED_PATH;
 
 /**
  * Created by fabiohh on 10/26/16.
+ *
+ * reference for closing db:
+ * http://stackoverflow.com/questions/23387405/android-database-cannot-perform-this-operation-because-the-connection-pool-has
+ *
+ *
  */
 
 public class MovieContentProvider extends ContentProvider {

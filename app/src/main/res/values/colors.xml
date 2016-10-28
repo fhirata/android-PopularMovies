@@ -3,4 +3,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorDetailBackground">#27282d</color>
+    <color name="colorDetailText">#dadee5</color>
+    <color name="colorDetailTitle">#dadee5</color>
 </resources>
