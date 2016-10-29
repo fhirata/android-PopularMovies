@@ -131,6 +131,16 @@ public class MovieContentProvider extends ContentProvider {
                         null);
             }
             break;
+            case FAVORITES_ITEM: {
+                retCursor = db.query(MovieContract.FavoriteEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        null);
+            }
+            break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -242,7 +252,7 @@ public class MovieContentProvider extends ContentProvider {
                         selectionArgs);
             }
             break;
-            case FAVORITES: {
+            case FAVORITES_ITEM: {
                 rowsDeleted = db.delete(
                         MovieContract.FavoriteEntry.TABLE_NAME,
                         selection,
