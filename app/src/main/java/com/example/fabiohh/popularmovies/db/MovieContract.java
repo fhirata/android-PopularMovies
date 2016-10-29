@@ -2,6 +2,7 @@ package com.example.fabiohh.popularmovies.db;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -77,6 +78,13 @@ public class MovieContract {
 
         public static Uri buildFavoritesUri(long movieId) {
             return ContentUris.withAppendedId(CONTENT_URI, movieId);
+        }
+
+        public static ContentValues createFavoriteRecord(long movieId) {
+            ContentValues contentValue = new ContentValues();
+            contentValue.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_ID, movieId);
+
+            return contentValue;
         }
 
     }

@@ -11,8 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.fabiohh.popularmovies.db.MovieContentManager;
@@ -49,14 +52,42 @@ public class DetailFragment extends Fragment {
             return rootView;
         }
 
-        Uri uri = intent.getParcelableExtra("movie_item_uri");
+        final Uri uri = intent.getParcelableExtra("movie_item_uri");
         MovieItem movieItem = MovieContentManager.getMovieItem(this.getActivity(), uri);
         movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
 
         mReviewRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_review_carousel);
         mTrailerRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_trailer_carousel);
 
-        updateMovieDetail(movieItem, rootView);
+        // Check if is already added, if so show pressed state
+        final Button favoriteButton = (Button) rootView.findViewById(R.id.favorite_btn);
+        final TextView favoriteTextView = (TextView) rootView.findViewById(R.id.favorite_label);
+
+        if (MovieContentManager.containsMovieId(rootView.getContext(), movieId)) {
+            favoriteButton.setBackgroundResource(R.drawable.ic_favorite_pressed);
+            favoriteTextView.setText(getString(R.string.added_to_favorite));
+        }
+
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!MovieContentManager.containsMovieId(view.getContext(), movieId)) {
+                    // Add to Favorites table
+                    MovieContentManager.saveToFavorites(view.getContext(), movieId);
+                    favoriteButton.setBackgroundResource(R.drawable.ic_favorite_pressed);
+                    favoriteTextView.setText(getString(R.string.added_to_favorite));
+                    Toast.makeText(view.getContext(), "Added to Favorites!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Remove from Favorites table
+                    MovieContentManager.removeFromFavorites(view.getContext(), movieId);
+                    favoriteButton.setBackgroundResource(R.drawable.ic_favorite);
+                    favoriteTextView.setText(getString(R.string.add_to_favorite));
+                    Toast.makeText(view.getContext(), "Removed from Favorites!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+                updateMovieDetail(movieItem, rootView);
 
         return rootView;
     }
@@ -106,6 +137,9 @@ public class DetailFragment extends Fragment {
 
         TextView voteTextView = (TextView) view.findViewById(R.id.text_votes);
         voteTextView.setText(movieItem.getAverageVote() + "/10 (" + movieItem.getVoteCount() + " votes)");
+
+        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+        ratingBar.setRating(Float.valueOf(movieItem.getAverageVote())/2);
 
         TextView descTextView = (TextView) view.findViewById(R.id.text_desc);
         descTextView.setText(movieItem.getDescription());

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_width="270dp"
+    android:layout_height="210dp"
     android:layout_margin="10dp"
     android:elevation="3dp"
-    card_view:cardBackgroundColor="@color/cardview_light_background">
+    card_view:cardBackgroundColor="@color/colorCardBackground">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -20,25 +20,37 @@
 
             <ImageView
                 android:id="@+id/imageview_avatar"
-                android:layout_width="60px"
-                android:layout_height="60px"
-                android:background="@color/colorPrimary" />
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:src="@drawable/ic_avatar"
+                android:background="@color/colorReviewTitle" />
 
             <TextView
                 android:id="@+id/textview_reviewer_label"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:background="#b9c1cc"
-                android:layout_gravity="center_vertical"
-                android:text="UserOne" />
+                android:padding="5dp"
+                android:background="@color/colorReviewTitle"
+                android:layout_gravity="bottom"/>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/textview_description_label"
+            android:layout_width="270dp"
+            android:layout_height="150dp"
+            android:maxLines="8"
+            android:text="No Reviews yet!"
+            android:padding="5dp"
+            />
+        <TextView
+            android:id="@+id/textview_review_url"
             android:layout_width="300dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLink"
+            android:padding="7dp"
+            android:text="View all"/>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

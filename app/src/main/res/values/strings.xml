@@ -4,8 +4,12 @@
     <string name="popular" translatable="true">Popular</string>
     <string name="top_rated" translatable="true">Top Rated</string>
     <string name="favorite" translatable="true">Favorite</string>
+    <string name="add_to_favorite" translatable="true">Add to Favorites</string>
+    <string name="added_to_favorite" translatable="true">Added to Favorites</string>
     <string name="movies" translatable="true">Movies</string>
     <string name="no_api_response" translatable="true">"No Response from API.  Please check network connection."</string>
     <string name="ok" translatable="true">Ok</string>
     <string name="content_authority">com.example.fabiohh.popularmovies</string>
+    <string name="trailers" translatable="true">Trailers</string>
+    <string name="reviews" translatable="true">Reviews</string>
 </resources>

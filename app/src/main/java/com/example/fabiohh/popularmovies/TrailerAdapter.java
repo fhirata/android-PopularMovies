@@ -68,7 +68,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         if (trailerList != null && trailerList.size() > 0) {
             return trailerList.size();
         }
-        return 3;
+        return 0;
     }
 
     public void setData(List<MovieTrailer> trailerList) {

@@ -42,13 +42,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         holder.author.setText(movieReview.getAuthor());
         holder.content.setText(movieReview.getContent());
 
-        holder.content.setOnClickListener(new View.OnClickListener() {
+        holder.source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(movieReview.getUrl()));
                 mContext.startActivity(intent);
             }
         });
+
     }
 
     public void setData(List<MovieReview> reviewList) {
@@ -61,18 +62,20 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         if (reviewList != null && reviewList.size() > 0) {
             return reviewList.size();
         }
-        return 2;
+        return 1; // placeholder
     }
 
     public static class ReviewViewHolder extends RecyclerView.ViewHolder {
         TextView author;
         TextView content;
+        TextView source;
 
         public ReviewViewHolder(View itemView) {
             super(itemView);
 
             author = (TextView) itemView.findViewById(R.id.textview_reviewer_label);
             content = (TextView) itemView.findViewById(R.id.textview_description_label);
+            source = (TextView) itemView.findViewById(R.id.textview_review_url);
         }
     }
 }
