@@ -46,13 +46,13 @@ public class MovieItem {
         return mName;
     }
 
-//    public String getReleaseDate()
-//    {
-//        if (this.mReleaseDate != null) {
-//            return dateFormat.format(this.mReleaseDate);
-//        }
-//        return "(Unknown)";
-//    }
+    public String getReleaseDate()
+    {
+        if (this.mReleaseDate != null) {
+            return dateFormat.format(this.mReleaseDate);
+        }
+        return "(Unknown)";
+    }
 
     public String getReleaseYear()
     {
