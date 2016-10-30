@@ -46,7 +46,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
-        if (trailerList == null || trailerList.isEmpty()) {
+        // Pass through if it's empty so that trailer carousel get refreshed
+        if (trailerList == null) {
             return;
         }
         final MovieTrailer movieTrailer = trailerList.get(position);

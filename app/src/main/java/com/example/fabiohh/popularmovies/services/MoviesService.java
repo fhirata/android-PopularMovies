@@ -97,10 +97,14 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
 
             if (apiType.equals(MOVIE_FETCH_MODE_REVIEWS)) {
                 List<MovieReview> movieReviewsList = getReviewsDataFromJson(jsonString);
-                ((ReviewAdapter)mAdapter).setData(movieReviewsList);
+                if (mAdapter != null) {
+                    ((ReviewAdapter) mAdapter).setData(movieReviewsList);
+                }
             } else if (apiType.equals(MOVIE_FETCH_MODE_TRAILERS)) {
                 List<MovieTrailer> movieTrailersList = getTrailersDataFromJson(jsonString);
-                ((TrailerAdapter)mAdapter).setData(movieTrailersList);
+                if (mAdapter != null) {
+                    ((TrailerAdapter) mAdapter).setData(movieTrailersList);
+                }
             }
         } catch (JSONException jsonException) {
             Log.e(LOG_TAG, jsonException.getMessage(), jsonException);

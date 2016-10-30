@@ -41,7 +41,7 @@
             android:layout_width="270dp"
             android:layout_height="150dp"
             android:maxLines="8"
-            android:text="No Reviews yet!"
+            android:text="@string/no_reviews_yet"
             android:padding="5dp"
             />
         <TextView

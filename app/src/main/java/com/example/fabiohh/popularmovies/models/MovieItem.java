@@ -3,7 +3,7 @@ package com.example.fabiohh.popularmovies.models;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.fabiohh.popularmovies.MoviesFragment;
+import com.example.fabiohh.popularmovies.db.MovieContentProvider;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ public class MovieItem {
 
     private static String TAG = MovieItem.class.getSimpleName();
 
-    private String   mTitle;
+    private String mName;
     private String   mImgUrl;
     private String   mDescription;
     private int      mVoteCount;
@@ -38,12 +38,12 @@ public class MovieItem {
         Log.d(TAG, "MovieItem() called");
     }
 
-    public void setTitle(String title) {
-        this.mTitle = title;
+    public void setName(String name) {
+        this.mName = name;
     }
 
-    public String getTitle() {
-        return mTitle;
+    public String getName() {
+        return mName;
     }
 
 //    public String getReleaseDate()
@@ -135,14 +135,15 @@ public class MovieItem {
     public static MovieItem fromCursor(Cursor cursor) {
         MovieItem item = new MovieItem();
 
-        item.setTitle(cursor.getString(MoviesFragment.COL_NAME));
-        item.setImgUrl(cursor.getString(MoviesFragment.COL_POSTER_URL));
-        item.setDescription(cursor.getString(MoviesFragment.COL_SYNOPSIS));
-        item.setVoteCount(cursor.getString(MoviesFragment.COL_VOTE_COUNT));
-        item.setAverageVote(cursor.getString(MoviesFragment.COL_VOTE_AVERAGE));
-        item.setReleaseDate(cursor.getString(MoviesFragment.COL_POSTER_RELEASE_DATE));
-        item.setBackDropUrl(cursor.getString(MoviesFragment.COL_BACKDROP_URL));
-        item.setMovieId(cursor.getLong(MoviesFragment.COL_MOVIE_ID));
+        item.setName(cursor.getString(MovieContentProvider.COL_NAME));
+        item.setImgUrl(cursor.getString(MovieContentProvider.COL_POSTER_URL));
+        item.setDescription(cursor.getString(MovieContentProvider.COL_SYNOPSIS));
+        item.setVoteCount(cursor.getString(MovieContentProvider.COL_VOTE_COUNT));
+        item.setAverageVote(cursor.getString(MovieContentProvider.COL_VOTE_AVERAGE));
+        item.setReleaseDate(cursor.getString(MovieContentProvider.COL_POSTER_RELEASE_DATE));
+        item.setBackDropUrl(cursor.getString(MovieContentProvider.COL_BACKDROP_URL));
+        item.setMovieId(cursor.getLong(MovieContentProvider.COL_MOVIE_ID));
+
         Log.d(TAG, "fromCursor() called with: cursor = [" + cursor + "]");
         return item;
     }

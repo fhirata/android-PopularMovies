@@ -1,6 +1,7 @@
 package com.example.fabiohh.popularmovies;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -57,11 +58,10 @@ public class DetailFragment extends Fragment {
         }
 
         final Uri uri = intent.getParcelableExtra("movie_item_uri");
-        MovieItem movieItem = MovieContentManager.getMovieItem(this.getActivity(), uri);
         movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
 
+        MovieItem movieItem = MovieContentManager.getMovieById(getActivity(), movieId);
         updateMovieDetail(movieItem, rootView);
-
         return rootView;
     }
 
@@ -72,12 +72,27 @@ public class DetailFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        if (movieId > 0) {
+            MoviesService reviewsService = new MoviesService(this.getActivity(), MoviesFragment.MOVIE_FETCH_MODE_REVIEWS, movieId, mReviewAdapter);
+            reviewsService.execute();
+
+            MoviesService trailersService = new MoviesService(this.getActivity(), MoviesFragment.MOVIE_FETCH_MODE_TRAILERS, movieId, mTrailerAdapter);
+            trailersService.execute();
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         if (savedInstanceState != null) {
             movieId = savedInstanceState.getLong(MOVIE_ID_KEY);
         }
+
+        Context context = this.getActivity();
 
         mReviewRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_review_carousel);
         mTrailerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_trailer_carousel);
@@ -87,12 +102,12 @@ public class DetailFragment extends Fragment {
         mTrailerRecyclerView.setHasFixedSize(true);
         mReviewRecyclerView.setHasFixedSize(true);
 
-        mTrailerLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mTrailerLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         mTrailerAdapter = new TrailerAdapter(this.getActivity());
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);
         mTrailerRecyclerView.setLayoutManager(mTrailerLayoutManager);
 
-        mReviewLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mReviewLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         mReviewAdapter = new ReviewAdapter(this.getActivity());
         mReviewRecyclerView.setAdapter(mReviewAdapter);
         mReviewRecyclerView.setLayoutManager(mReviewLayoutManager);
@@ -104,6 +119,10 @@ public class DetailFragment extends Fragment {
     }
 
     public void updateMovieDetail(MovieItem movieItem, View view) {
+        if (view == null) {
+            // means that fragment is not available after a screen rotation from landscape to portrait.
+            return;
+        }
         ImageView backgroundHeaderImage = (ImageView) view.findViewById(R.id.background_header_image);
 
         // Landscape mode backgroundHeaderImage is not available
@@ -127,7 +146,7 @@ public class DetailFragment extends Fragment {
         descTextView.setText(movieItem.getDescription());
 
         TextView headerTitleTextView = (TextView) view.findViewById(R.id.text_header_title);
-        headerTitleTextView.setText(movieItem.getTitle());
+        headerTitleTextView.setText(movieItem.getName());
         if (movieItem.getBackDropUrl() != null) {
             headerTitleTextView.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -169,13 +188,15 @@ public class DetailFragment extends Fragment {
                     favoriteTextView.setText(getString(R.string.add_to_favorite));
                     Toast.makeText(view.getContext(), "Removed from Favorites!", Toast.LENGTH_SHORT).show();
                 }
-            }
+             }
         });
 
-        MoviesService reviewsService = new MoviesService(this.getActivity(), MoviesFragment.MOVIE_FETCH_MODE_REVIEWS, movieId, mReviewAdapter);
-        reviewsService.execute();
+        if (movieId > 0) {
+            MoviesService reviewsService = new MoviesService(this.getActivity(), MoviesFragment.MOVIE_FETCH_MODE_REVIEWS, movieId, mReviewAdapter);
+            reviewsService.execute();
 
-        MoviesService trailersService = new MoviesService(this.getActivity(), MoviesFragment.MOVIE_FETCH_MODE_TRAILERS, movieId, mTrailerAdapter);
-        trailersService.execute();
+            MoviesService  trailersService = new MoviesService(this.getActivity(), MoviesFragment.MOVIE_FETCH_MODE_TRAILERS, movieId, mTrailerAdapter);
+            trailersService.execute();
+        }
     }
 }

@@ -12,4 +12,5 @@
     <string name="content_authority">com.example.fabiohh.popularmovies</string>
     <string name="trailers" translatable="true">Trailers</string>
     <string name="reviews" translatable="true">Reviews</string>
+    <string name="no_reviews_yet" translatable="true">No Reviews yet!</string>
 </resources>

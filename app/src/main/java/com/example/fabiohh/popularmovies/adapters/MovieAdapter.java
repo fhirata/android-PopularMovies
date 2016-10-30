@@ -18,6 +18,7 @@ import com.example.fabiohh.popularmovies.MainActivity;
 import com.example.fabiohh.popularmovies.MovieViewHolder;
 import com.example.fabiohh.popularmovies.MoviesFragment;
 import com.example.fabiohh.popularmovies.R;
+import com.example.fabiohh.popularmovies.db.MovieContentProvider;
 import com.example.fabiohh.popularmovies.db.MovieContract;
 
 /**
@@ -45,9 +46,9 @@ public class MovieAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, final Cursor cursor) {
         MovieViewHolder viewHolder = (MovieViewHolder) view.getTag();
 
-        String posterUrl = cursor.getString(MoviesFragment.COL_POSTER_URL);
+        String posterUrl = cursor.getString(MovieContentProvider.COL_POSTER_URL);
 
-        long movieId = cursor.getInt(MoviesFragment.COL_MOVIE_ID);
+        long movieId = cursor.getInt(MovieContentProvider.COL_MOVIE_ID);
         final Uri uri = MovieContract.MovieEntry.buildMovieItemUri(movieId);
         final ImageView imageView1 = viewHolder.imageViewItem;
         final int position = cursor.getPosition();
