@@ -170,6 +170,8 @@ public class DetailFragment extends Fragment {
         if (MovieContentManager.containsMovieId(view.getContext(), movieId)) {
             favoriteButton.setBackgroundResource(R.drawable.ic_favorite_pressed);
             favoriteTextView.setText(getString(R.string.added_to_favorite));
+        } else {
+            favoriteButton.setBackgroundResource(R.drawable.ic_favorite);
         }
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {

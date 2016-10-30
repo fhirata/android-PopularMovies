@@ -85,7 +85,7 @@ public class MovieContentProvider extends ContentProvider {
                         MovieContract.FavoriteEntry.TABLE_NAME +
                         " ON " + MovieContract.MovieEntry.TABLE_NAME +
                         "." + MovieContract.MovieEntry.COLUMN_MOVIE_ID +
-                        " = " + MovieContract.MovieEntry.TABLE_NAME +
+                        " = " + MovieContract.FavoriteEntry.TABLE_NAME +
                         "." + MovieContract.FavoriteEntry.COLUMN_MOVIE_ID);
     }
 
@@ -265,6 +265,8 @@ public class MovieContentProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+
+        getContext().getContentResolver().notifyChange(uri, null);
 
         return returnUri;
     }
