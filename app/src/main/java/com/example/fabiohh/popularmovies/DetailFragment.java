@@ -134,7 +134,7 @@ public class DetailFragment extends Fragment {
         }
 
         TextView yearTextView = (TextView) view.findViewById(R.id.text_release_year);
-        yearTextView.setText(movieItem.getReleaseYear());
+        yearTextView.setText(movieItem.getReleaseDate());
 
         TextView voteTextView = (TextView) view.findViewById(R.id.text_votes);
         voteTextView.setText(movieItem.getAverageVote() + "/10 (" + movieItem.getVoteCount() + " votes)");
