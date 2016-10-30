@@ -182,13 +182,13 @@ public class DetailFragment extends Fragment {
                     MovieContentManager.saveToFavorites(view.getContext(), movieId);
                     favoriteButton.setBackgroundResource(R.drawable.ic_favorite_pressed);
                     favoriteTextView.setText(getString(R.string.added_to_favorite));
-                    Toast.makeText(view.getContext(), "Added to Favorites!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), getString(R.string.added_to_favorites), Toast.LENGTH_SHORT).show();
                 } else {
                     // Remove from Favorites table
                     MovieContentManager.removeFromFavorites(view.getContext(), movieId);
                     favoriteButton.setBackgroundResource(R.drawable.ic_favorite);
                     favoriteTextView.setText(getString(R.string.add_to_favorite));
-                    Toast.makeText(view.getContext(), "Removed from Favorites!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), getString(R.string.removed_from_favorites), Toast.LENGTH_SHORT).show();
                 }
              }
         });

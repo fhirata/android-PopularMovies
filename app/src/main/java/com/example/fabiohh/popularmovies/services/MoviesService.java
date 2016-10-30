@@ -176,7 +176,7 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
         String key = context.getString(R.string.movies_api_key);
 
         if (key.equals("")) {
-            throw new RuntimeException("Missing API Key. See README file.");
+            throw new RuntimeException(context.getString(R.string.missing_api_key));
         }
 
         Uri uri = Uri.parse(apiUrl).buildUpon()

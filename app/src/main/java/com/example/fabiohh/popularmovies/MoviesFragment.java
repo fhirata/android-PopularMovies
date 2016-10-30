@@ -145,7 +145,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         if (!networkConnected()) {
-            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection.  Please check your connection and try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
