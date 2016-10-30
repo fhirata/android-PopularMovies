@@ -82,13 +82,11 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         setHasOptionsMenu(true);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
 
-//        updateData();
-
+        updateData();
     }
 
     @Override
@@ -116,6 +114,10 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         return super.onOptionsItemSelected(menuItem);
     }
 
+    public void refreshList() {
+        getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
+    }
+
     public boolean networkConnected() {
         ConnectivityManager conMgr = (ConnectivityManager) getActivity().getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -138,7 +140,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         if (mFetchMode.equals(MOVIE_FETCH_MODE_TOPRATED) || mFetchMode.equals(MOVIE_FETCH_MODE_POPULAR)) {
-            MoviesService moviesService = new MoviesService(getActivity(), mFetchMode);
+            MoviesService moviesService = new MoviesService(getActivity(), mFetchMode, this);
             moviesService.execute();
         }
 

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.fabiohh.popularmovies.MoviesFragment;
 import com.example.fabiohh.popularmovies.R;
 import com.example.fabiohh.popularmovies.adapters.ReviewAdapter;
 import com.example.fabiohh.popularmovies.adapters.TrailerAdapter;
@@ -50,7 +51,8 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
     private Context context;
     private String apiUrl;
     private String apiType;
-    private RecyclerView.Adapter mAdapter;
+    private MoviesFragment movieFragment;
+    private RecyclerView.Adapter mRecyclerAdapter;
 
     static final String MOVIE_DOMAIN = "http://api.themoviedb.org";
     static final String MOVIE_DOMAIN_URI = "/3";
@@ -69,10 +71,10 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
         }
         this.context = context;
         this.apiType = apiType;
-        this.mAdapter = adapter;
+        this.mRecyclerAdapter = adapter;
     }
 
-    public MoviesService(Context context, String apiType) {
+    public MoviesService(Context context, String apiType, MoviesFragment parentFragment) {
 
         if (apiType.equals(MOVIE_FETCH_MODE_TOPRATED)) {
             this.apiUrl = MOVIE_TOP_RATED_API_URL;
@@ -83,6 +85,7 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
         }
         this.context = context;
         this.apiType = apiType;
+        this.movieFragment = parentFragment;
     }
 
     @Override
@@ -92,18 +95,21 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
             if (apiType.equals(MOVIE_FETCH_MODE_TOPRATED) || apiType.equals(MOVIE_FETCH_MODE_POPULAR)) {
                 // Save Contents into database
                 saveMovieFromJson(jsonString);
+                if (movieFragment != null) {
+                    movieFragment.refreshList();
+                }
                 return;
             }
 
             if (apiType.equals(MOVIE_FETCH_MODE_REVIEWS)) {
                 List<MovieReview> movieReviewsList = getReviewsDataFromJson(jsonString);
-                if (mAdapter != null) {
-                    ((ReviewAdapter) mAdapter).setData(movieReviewsList);
+                if (mRecyclerAdapter != null) {
+                    ((ReviewAdapter) mRecyclerAdapter).setData(movieReviewsList);
                 }
             } else if (apiType.equals(MOVIE_FETCH_MODE_TRAILERS)) {
                 List<MovieTrailer> movieTrailersList = getTrailersDataFromJson(jsonString);
-                if (mAdapter != null) {
-                    ((TrailerAdapter) mAdapter).setData(movieTrailersList);
+                if (mRecyclerAdapter != null) {
+                    ((TrailerAdapter) mRecyclerAdapter).setData(movieTrailersList);
                 }
             }
         } catch (JSONException jsonException) {
@@ -285,7 +291,7 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
         // TODO: bulk insert the values, checking for duplicates
 //        ContentValues[] values = new ContentValues[movieItemInfoResult.size()];
 //        movieItemInfoResult.toArray(values);
-//        context.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, values);
+//        context.getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, null);
     }
 
     /**
