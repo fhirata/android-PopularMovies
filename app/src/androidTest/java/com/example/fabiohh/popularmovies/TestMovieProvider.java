@@ -3,10 +3,14 @@ package com.example.fabiohh.popularmovies;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.test.AndroidTestCase;
 
 import com.example.fabiohh.popularmovies.db.MovieContract;
 import com.example.fabiohh.popularmovies.db.MovieDatabaseHelper;
+
+import static com.example.fabiohh.popularmovies.db.MovieContract.FAVORITES_PATH;
+import static com.example.fabiohh.popularmovies.db.MovieContract.TOP_RATED_PATH;
 
 /**
  * Created by fabiohh on 10/26/16.
@@ -14,18 +18,21 @@ import com.example.fabiohh.popularmovies.db.MovieDatabaseHelper;
 
 public class TestMovieProvider extends AndroidTestCase {
     public void testDeleteAllRecordsFromProvider() {
+        Uri topRatedUri = MovieContract.MovieEntry.buildMovieUri(TOP_RATED_PATH);
         mContext.getContentResolver().delete(
-                MovieContract.MovieEntry.CONTENT_URI,
-                null,
-                null
-        );
-        mContext.getContentResolver().delete(
-                MovieContract.FavoriteEntry.CONTENT_URI,
+                topRatedUri,
                 null,
                 null
         );
 
-        Cursor cursor = mContext.getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+        Uri favoritesUri = MovieContract.MovieEntry.buildMovieUri(FAVORITES_PATH);
+        mContext.getContentResolver().delete(
+                favoritesUri,
+                null,
+                null
+        );
+
+        Cursor cursor = mContext.getContentResolver().query(topRatedUri,
                 null,
                 null,
                 null,
@@ -34,7 +41,7 @@ public class TestMovieProvider extends AndroidTestCase {
         assertEquals("Delete All Movie Records failed.", 0, cursor.getCount());
         cursor.close();
 
-        cursor = mContext.getContentResolver().query(MovieContract.FavoriteEntry.CONTENT_URI,
+        cursor = mContext.getContentResolver().query(favoritesUri,
                 null,
                 null,
                 null,

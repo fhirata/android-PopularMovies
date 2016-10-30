@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (detailFragmentLandscape != null) {
             // DetailFragment frag is available, so we're in two-pane layout.
-
             // Call a method in the ArticleFragment to update its content
             detailFragmentLandscape.updateMovieDetail(MovieItem.fromCursor(cursor), detailFragmentLandscape.getView());
         }

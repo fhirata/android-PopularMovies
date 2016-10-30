@@ -29,7 +29,7 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
             ");";
 
     final String SQL_CREATE_FAVORITES_TABLE = "CREATE TABLE " + MovieContract.FavoriteEntry.TABLE_NAME +
-            "( " + MovieContract.FavoriteEntry.COLUMN_MOVIE_ID + " INTEGER PRIMARY KEY);";
+            "( " + MovieContract.FavoriteEntry.COLUMN_MOVIE_ID + " TEXT PRIMARY KEY);";
 
     public MovieDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

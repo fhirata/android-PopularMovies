@@ -30,15 +30,17 @@ import static com.example.fabiohh.popularmovies.db.MovieContract.TOP_RATED_PATH;
 public class MovieContentProvider extends ContentProvider {
     MovieDatabaseHelper movieDatabaseHelper;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-    public static final int TOP_RATED = 100;
-    public static final int POPULAR = 110;
-    public static final int MOVIE_ITEM = 120;
-    public static final int FAVORITES = 300;
+    public static final int MOVIES = 100;
+    public static final int TOP_RATED = 110;
+    public static final int POPULAR = 120;
+    public static final int MOVIE_ITEM = 130;
+    public static final int FAVORITES = 140;
     public static final int FAVORITES_ITEM = 310;
 
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
+        uriMatcher.addURI(CONTENT_AUTHORITY, MOVIES_PATH, MOVIES);
         uriMatcher.addURI(CONTENT_AUTHORITY, MOVIES_PATH + "/" + TOP_RATED_PATH , TOP_RATED);
         uriMatcher.addURI(CONTENT_AUTHORITY, MOVIES_PATH + "/" + POPULAR_PATH , POPULAR);
         uriMatcher.addURI(CONTENT_AUTHORITY, MOVIES_PATH + "/#", MOVIE_ITEM);
@@ -245,6 +247,8 @@ public class MovieContentProvider extends ContentProvider {
         final SQLiteDatabase db =movieDatabaseHelper.getWritableDatabase();
         int rowsDeleted = 0;
         switch(sUriMatcher.match(uri)) {
+            case TOP_RATED:
+            case POPULAR:
             case MOVIE_ITEM: {
                 rowsDeleted = db.delete(
                         MovieContract.MovieEntry.TABLE_NAME,
@@ -252,6 +256,7 @@ public class MovieContentProvider extends ContentProvider {
                         selectionArgs);
             }
             break;
+            case FAVORITES:
             case FAVORITES_ITEM: {
                 rowsDeleted = db.delete(
                         MovieContract.FavoriteEntry.TABLE_NAME,

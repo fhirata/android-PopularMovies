@@ -1,103 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/textview_review_label"
-        android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reviews" />
+        android:background="@color/colorDetailBackground"
+        android:orientation="vertical">
 
-    <include layout="@layout/review_carousel" />
+        <RelativeLayout
+            android:layout_below="@+id/detail_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/text_header_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:shadowColor="#323232"
+                android:text="Mad Max"
+                android:textColor="@color/colorDetailMovieTitle"
+                android:textSize="25dp"
+                android:layout_below="@+id/detail_header"
+                android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/textview_trailer_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trailers" />
+            <ImageView
+                android:id="@+id/image_movie"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_below="@id/text_header_title"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:background="#000000"
+                android:scaleType="fitCenter"
+                android:layout_above="@+id/text_desc" />
 
-    <include layout="@layout/trailer_carousel" />
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="#ffffff"-->
-        <!--android:clickable="true">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/text_header_title"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:background="#0b8070"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-            <!--android:shadowColor="#323232"-->
-            <!--android:text="Select a movie"-->
-            <!--android:textColor="#FFFFFF"-->
-            <!--android:textSize="25dp" />-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/image_movie"-->
-            <!--android:layout_width="180dp"-->
-            <!--android:layout_height="120dp"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_below="@+id/text_header_title"-->
-            <!--android:layout_marginStart="24dp"-->
-            <!--android:layout_marginTop="27dp"-->
-            <!--android:background="#f4f4f4"-->
-            <!--android:scaleType="fitCenter" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/text_release_year"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignTop="@+id/image_movie"-->
-            <!--android:layout_marginStart="31dp"-->
-            <!--android:layout_toEndOf="@+id/image_movie"-->
-            <!--android:autoText="true"-->
-            <!--android:clickable="false"-->
-            <!--android:textSize="18dp"-->
-            <!--android:textStyle="bold" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/text_votes"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/text_release_year"-->
-            <!--android:layout_below="@+id/text_release_year"-->
-            <!--android:layout_marginTop="15dp" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/text_desc"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignStart="@+id/image_movie"-->
-            <!--android:layout_below="@+id/image_movie"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:lines="4"-->
-            <!--android:textSize="11dp" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/favorite_btn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBottom="@+id/text_votes"-->
-            <!--android:layout_alignEnd="@+id/text_desc"-->
-            <!--android:layout_marginEnd="19dp"-->
-            <!--android:text="Button" />-->
-
-    <!--</RelativeLayout>-->
+            <TextView
+                android:id="@+id/text_release_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/image_movie"
+                android:layout_marginStart="31dp"
+                android:layout_toEndOf="@+id/image_movie"
+                android:autoText="true"
+                android:clickable="false"
+                android:text="1994"
+                android:textColor="@color/colorDetailText"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
 
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_release_year"
+                android:layout_alignStart="@+id/text_release_year"
+                android:numStars="5"
+                android:stepSize="0.25"
+                android:layout_margin="5dp"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content" />
 
-</LinearLayout>
 
-    <!--<NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/detail_fragment"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">-->
+            <TextView
+                android:id="@+id/text_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="4"
+                android:text="adfihj ijwojasj fwie faijfaso;hfsofns ofhsojf sjfishfow fiahsfoijsofhsfhwefj awjfp oja sfjafjwehfo f'aspfjowiejfo"
+                android:textColor="@color/colorDetailText"
+                android:textSize="14dp"
+                android:layout_below="@+id/favorite_frame"
+                android:layout_toEndOf="@+id/image_movie"
+                android:layout_marginTop="24dp"
+                android:layout_alignStart="@+id/image_movie" />
+
+            <TextView
+                android:id="@+id/text_votes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.1/10"
+                android:textColor="@color/colorDetailText"
+                android:layout_below="@+id/ratingBar"
+                android:layout_alignStart="@+id/ratingBar" />
+
+            <LinearLayout
+                android:id="@+id/favorite_frame"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_below="@+id/text_header_title"
+                android:layout_alignEnd="@+id/text_header_title">
+            <Button
+                android:id="@+id/favorite_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/favorite_btn"
+                android:layout_gravity="center"
+/>
+            <TextView
+                android:id="@+id/favorite_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorDetailText"
+                android:text="@string/add_to_favorite"
+                android:layout_gravity="center"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_review_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="@string/reviews"
+                android:textColor="@color/colorDetailTitle"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_review_carousel"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textview_trailers_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="@string/trailers"
+                android:textColor="@color/colorDetailTitle"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_trailer_carousel"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

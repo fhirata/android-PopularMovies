@@ -20,8 +20,6 @@ import com.example.fabiohh.popularmovies.MoviesFragment;
 import com.example.fabiohh.popularmovies.R;
 import com.example.fabiohh.popularmovies.db.MovieContract;
 
-import static com.example.fabiohh.popularmovies.MoviesFragment.COL_MOVIE_ID;
-
 /**
  * Created by fabiohh on 10/26/16.
  */
@@ -49,14 +47,16 @@ public class MovieAdapter extends CursorAdapter {
 
         String posterUrl = cursor.getString(MoviesFragment.COL_POSTER_URL);
 
-        long movieId = cursor.getInt(COL_MOVIE_ID);
+        long movieId = cursor.getInt(MoviesFragment.COL_MOVIE_ID);
         final Uri uri = MovieContract.MovieEntry.buildMovieItemUri(movieId);
         final ImageView imageView1 = viewHolder.imageViewItem;
+        final int position = cursor.getPosition();
 
         viewHolder.imageViewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mActivity.findViewById(R.id.container) != null) {
+
                     Intent intent = new Intent(view.getContext(), DetailActivity.class);
                     intent.putExtra("movie_item_uri", uri);
                     intent.putExtra("scroll_position", cursor.getPosition());
@@ -68,7 +68,8 @@ public class MovieAdapter extends CursorAdapter {
                             MoviesFragment.MOVIE_ITEM_POSITION_CODE,
                             options.toBundle());
                 } else {
-                    ((MainActivity) mContext).onMovieSelected(cursor.getPosition(), cursor);
+                    cursor.moveToPosition(position);
+                    ((MainActivity) mContext).onMovieSelected(position, cursor);
                 }
             }
         });
