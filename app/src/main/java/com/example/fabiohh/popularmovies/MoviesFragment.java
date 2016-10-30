@@ -21,8 +21,8 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.fabiohh.popularmovies.adapters.MovieAdapter;
+import com.example.fabiohh.popularmovies.db.MovieContentProvider;
 import com.example.fabiohh.popularmovies.db.MovieContract;
-import com.example.fabiohh.popularmovies.models.MovieItem;
 import com.example.fabiohh.popularmovies.services.MoviesService;
 
 /**
@@ -49,32 +49,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public static final String MOVIE_FETCH_MODE_TRAILERS = "trailers";
 
     static final String MOVIE_API_PREFERENCE = "api_mode";
-
-    private static final String[] MOVIES_COLUMNS = {
-            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
-            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry.COLUMN_MOVIE_ID,
-            MovieContract.MovieEntry.COLUMN_RELEASE_DATE,
-            MovieContract.MovieEntry.COLUMN_NAME,
-            MovieContract.MovieEntry.COLUMN_POSTER_BITMAP,
-            MovieContract.MovieEntry.COLUMN_POSTER_URL,
-            MovieContract.MovieEntry.COLUMN_VOTE_COUNT,
-            MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,
-            MovieContract.MovieEntry.COLUMN_SYNOPSIS,
-            MovieContract.MovieEntry.COLUMN_BACKDROP_URL,
-            MovieContract.MovieEntry.COLUMN_TYPE
-    };
-
-    public static final int COL_ID = 0;
-    public static final int COL_MOVIE_ID = 1;
-    public static final int COL_POSTER_RELEASE_DATE = 2;
-    public static final int COL_NAME = 3;
-    public static final int COL_POSTER_BITMAP = 4;
-    public static final int COL_POSTER_URL = 5;
-    public static final int COL_VOTE_COUNT = 6;
-    public static final int COL_VOTE_AVERAGE = 7;
-    public static final int COL_SYNOPSIS = 8;
-    public static final int COL_BACKDROP_URL = 9;
-    public static final int COL_TYPE = 10;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,6 +88,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onResume();
 
 //        updateData();
+
     }
 
     @Override
@@ -185,7 +160,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
         return new CursorLoader(getActivity(),
                 uri,
-                MOVIES_COLUMNS,
+                MovieContentProvider.MOVIES_COLUMNS,
                 null,
                 null,
                 null);
@@ -195,21 +170,10 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         movieAdapter.swapCursor(data);
 
-        // Capture the detail fragment from the activity layout
-        DetailFragment detailFragmentLandscape = (DetailFragment)
-                getFragmentManager().findFragmentById(R.id.detail_fragment_land);
-
-        if (detailFragmentLandscape != null) {
-            // DetailFragment frag is available, so we're in two-pane layout.
-
-            // Get First element if nothing is selected initially
-            if (data.moveToFirst()) {
-                // Call a method in the ArticleFragment to update its content
-                detailFragmentLandscape.updateMovieDetail(MovieItem.fromCursor(data), detailFragmentLandscape.getView());
-            }
-        }
-
-
+        // For landscape, we will always load the first item on the list so
+        // detail fragment does not look empty.  Check at the Activity if fragment
+        // is present.
+        ((MainActivity)this.getActivity()).onMovieSelected(0, data);
     }
 
     @Override

@@ -37,6 +37,33 @@ public class MovieContentProvider extends ContentProvider {
     public static final int FAVORITES = 140;
     public static final int FAVORITES_ITEM = 310;
 
+    public static final String[] MOVIES_COLUMNS = {
+            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry._ID,
+            MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry.COLUMN_MOVIE_ID,
+            MovieContract.MovieEntry.COLUMN_RELEASE_DATE,
+            MovieContract.MovieEntry.COLUMN_NAME,
+            MovieContract.MovieEntry.COLUMN_POSTER_BITMAP,
+            MovieContract.MovieEntry.COLUMN_POSTER_URL,
+            MovieContract.MovieEntry.COLUMN_VOTE_COUNT,
+            MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE,
+            MovieContract.MovieEntry.COLUMN_SYNOPSIS,
+            MovieContract.MovieEntry.COLUMN_BACKDROP_URL,
+            MovieContract.MovieEntry.COLUMN_TYPE
+    };
+
+    public static final int COL_ID = 0;
+    public static final int COL_MOVIE_ID = 1;
+    public static final int COL_POSTER_RELEASE_DATE = 2;
+    public static final int COL_NAME = 3;
+    public static final int COL_POSTER_BITMAP = 4;
+    public static final int COL_POSTER_URL = 5;
+    public static final int COL_VOTE_COUNT = 6;
+    public static final int COL_VOTE_AVERAGE = 7;
+    public static final int COL_SYNOPSIS = 8;
+    public static final int COL_BACKDROP_URL = 9;
+    public static final int COL_TYPE = 10;
+
+
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 

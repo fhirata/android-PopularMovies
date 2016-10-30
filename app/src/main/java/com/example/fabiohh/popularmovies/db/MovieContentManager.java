@@ -54,7 +54,7 @@ public class MovieContentManager {
         long movieId = MovieContract.MovieEntry.getMovieIdFromUri(uri);
 
         Cursor cursor = context.getContentResolver().query(uri,
-                null,
+                MovieContentProvider.MOVIES_COLUMNS,
                 MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
                 new String[]{String.valueOf(movieId)},
                 null,
@@ -69,14 +69,16 @@ public class MovieContentManager {
     }
 
     public static MovieItem getMovieById(Context context, long movieId) {
-        Cursor cursor = context.getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
-                null,
+        Uri uri = MovieContract.MovieEntry.buildMovieItemUri(movieId);
+
+        Cursor cursor = context.getContentResolver().query(uri,
+                MovieContentProvider.MOVIES_COLUMNS,
                 MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
                 new String[]{String.valueOf(movieId)},
                 null,
                 null);
 
-        if (cursor.getCount() > 0) {
+        if (cursor.moveToFirst() && cursor.getCount() > 0) {
             return MovieItem.fromCursor(cursor);
         }
 

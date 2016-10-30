@@ -47,8 +47,6 @@
                 android:layout_alignTop="@+id/image_movie"
                 android:layout_marginStart="31dp"
                 android:layout_toEndOf="@+id/image_movie"
-                android:autoText="true"
-                android:clickable="false"
                 android:text="1994"
                 android:textColor="@color/colorDetailText"
                 android:textSize="18dp"

@@ -18,10 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null){
-            return;
-        }
-
         if (findViewById(R.id.container) != null) {
             // During initial setup, plug in the details fragment.
             MoviesFragment moviesFragment = new MoviesFragment();
@@ -42,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
     public void onMovieSelected(int position, Cursor cursor) {
         // The user selected a movie item
 
@@ -51,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (detailFragmentLandscape != null) {
             // DetailFragment frag is available, so we're in two-pane layout.
+
+            cursor.moveToPosition(position);
+
             // Call a method in the ArticleFragment to update its content
             detailFragmentLandscape.updateMovieDetail(MovieItem.fromCursor(cursor), detailFragmentLandscape.getView());
         }

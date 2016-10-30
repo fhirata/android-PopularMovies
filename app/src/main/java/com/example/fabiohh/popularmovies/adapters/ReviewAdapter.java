@@ -35,22 +35,24 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
-        if (reviewList == null || reviewList.isEmpty()) {
-            return;
+        // Pass through if it's empty so that reviews get refreshed
+        if (reviewList != null && !reviewList.isEmpty()) {
+            final MovieReview movieReview = reviewList.get(position);
+
+            holder.author.setText(movieReview.getAuthor());
+            holder.content.setText(movieReview.getContent());
+
+            holder.source.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(movieReview.getUrl()));
+                    mContext.startActivity(intent);
+                }
+            });
+        } else {
+            holder.author.setText("");
+            holder.content.setText(mContext.getString(R.string.no_reviews_yet));
         }
-        final MovieReview movieReview = reviewList.get(position);
-
-        holder.author.setText(movieReview.getAuthor());
-        holder.content.setText(movieReview.getContent());
-
-        holder.source.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(movieReview.getUrl()));
-                mContext.startActivity(intent);
-            }
-        });
-
     }
 
     public void setData(List<MovieReview> reviewList) {
