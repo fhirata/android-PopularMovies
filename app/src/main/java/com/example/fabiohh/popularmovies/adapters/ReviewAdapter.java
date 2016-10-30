@@ -1,4 +1,4 @@
-package com.example.fabiohh.popularmovies;
+package com.example.fabiohh.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.fabiohh.popularmovies.R;
 import com.example.fabiohh.popularmovies.models.MovieReview;
 
 import java.util.List;

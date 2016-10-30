@@ -15,7 +15,7 @@ public class TestMovieContract extends TestCase {
 
     public void testBuildMovieItem() {
         Uri movieUri = MovieContract.MovieEntry.buildMovieItemUri(TEST_MOVIE_ID);
-        assertEquals(Long.toString(TEST_MOVIE_ID), movieUri.getLastPathSegment());
+        assertEquals(TEST_MOVIE_ID, (long)Long.valueOf(movieUri.getLastPathSegment()));
     }
 
     public void testGetMovieIdFromUri() {

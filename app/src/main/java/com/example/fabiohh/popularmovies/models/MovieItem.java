@@ -3,11 +3,10 @@ package com.example.fabiohh.popularmovies.models;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.example.fabiohh.popularmovies.db.MovieContract;
+import com.example.fabiohh.popularmovies.MoviesFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,27 +27,15 @@ public class MovieItem {
     private double   mVoteAverage;
     private Date     mReleaseDate;
     private int      mDuration;
-    private String mBackDropUrl;
+    private String   mBackDropUrl;
+    private long   mMovieId;
 
     static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
     static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
-    public MovieItem(String title, String description, String voteAverage, String voteCount, String imgUrl, String releaseDate, String backDrop) {
-        setImgUrl(imgUrl);
-        setTitle(title);
-        setDescription(description);
-        setAverageVote(voteAverage);
-        setVoteCount(voteCount);
-        setReleaseDate(releaseDate);
-        setBackDropUrl(backDrop);
-    }
 
     public MovieItem() {
-
-    }
-
-    public MovieItem(ArrayList<String> movieData) {
-
+        Log.d(TAG, "MovieItem() called");
     }
 
     public void setTitle(String title) {
@@ -136,17 +123,27 @@ public class MovieItem {
         this.mDuration = mDuration;
     }
 
+    public long getMovieId() {
+        return mMovieId;
+    }
+
+    public void setMovieId(long movieId) {
+        Log.d(TAG, "setMovieId() called with: movieId = [" + movieId + "]");
+        this.mMovieId = movieId;
+    }
+
     public static MovieItem fromCursor(Cursor cursor) {
         MovieItem item = new MovieItem();
 
-        item.setTitle(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_NAME)));
-        item.setImgUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_URL)));
-        item.setDescription(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_SYNOPSIS)));
-        item.setVoteCount(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_COUNT)));
-        item.setAverageVote(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE)));
-        item.setReleaseDate(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE)));
-        item.setBackDropUrl(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_BACKDROP_URL)));
-
+        item.setTitle(cursor.getString(MoviesFragment.COL_NAME));
+        item.setImgUrl(cursor.getString(MoviesFragment.COL_POSTER_URL));
+        item.setDescription(cursor.getString(MoviesFragment.COL_SYNOPSIS));
+        item.setVoteCount(cursor.getString(MoviesFragment.COL_VOTE_COUNT));
+        item.setAverageVote(cursor.getString(MoviesFragment.COL_VOTE_AVERAGE));
+        item.setReleaseDate(cursor.getString(MoviesFragment.COL_POSTER_RELEASE_DATE));
+        item.setBackDropUrl(cursor.getString(MoviesFragment.COL_BACKDROP_URL));
+        item.setMovieId(cursor.getLong(MoviesFragment.COL_MOVIE_ID));
+        Log.d(TAG, "fromCursor() called with: cursor = [" + cursor + "]");
         return item;
     }
 }

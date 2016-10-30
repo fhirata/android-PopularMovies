@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.fabiohh.popularmovies.R;
-import com.example.fabiohh.popularmovies.ReviewAdapter;
-import com.example.fabiohh.popularmovies.TrailerAdapter;
+import com.example.fabiohh.popularmovies.adapters.ReviewAdapter;
+import com.example.fabiohh.popularmovies.adapters.TrailerAdapter;
 import com.example.fabiohh.popularmovies.db.MovieContract;
 import com.example.fabiohh.popularmovies.models.IMovieInfo;
 import com.example.fabiohh.popularmovies.models.IMovieReview;
@@ -241,7 +241,7 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
             JSONObject movieObject = moviesArray.getJSONObject(i);
 
             String title = movieObject.getString(MOVIE_TITLE);
-            int movieId = movieObject.getInt(MOVIE_ID);
+            long movieId = movieObject.getInt(MOVIE_ID);
             String imgUrl = buildImageURL(movieObject.getString(MOVIE_IMAGE));
             String description = movieObject.getString(MOVIE_DESC);
             String voteAverage = movieObject.getString(MOVIE_VOTE_AVG);
@@ -252,13 +252,13 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
             ContentValues contentValues = new ContentValues();
 
             contentValues.put(MovieContract.MovieEntry.COLUMN_NAME, title);
+            contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
             contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releaseYear);
             contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_BITMAP, "blob");
             contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_URL, imgUrl);
             contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, voteCount);
             contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
             contentValues.put(MovieContract.MovieEntry.COLUMN_SYNOPSIS, description);
-            contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
             contentValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_URL, backDrop);
             contentValues.put(MovieContract.MovieEntry.COLUMN_TYPE, apiType);
 
@@ -271,7 +271,7 @@ public class MoviesService extends AsyncTask<String, Void, String> implements IM
             cursor = context.getContentResolver().query(uri,
                     null,
                     MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
-                    new String[]{Long.toString(movieId)},
+                    new String[]{String.valueOf(movieId)},
                     null);
 
             if (cursor.getCount() == 0) {

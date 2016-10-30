@@ -58,7 +58,6 @@ public class MovieContract {
             } else if (movieType.equals(MOVIE_FETCH_MODE_TOPRATED)) {
                 return CONTENT_URI.buildUpon().appendPath(TOP_RATED_PATH).build();
             }
-
             return CONTENT_URI.buildUpon().appendPath(FAVORITES_PATH).build();
         }
 

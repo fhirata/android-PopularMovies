@@ -1,4 +1,4 @@
-package com.example.fabiohh.popularmovies;
+package com.example.fabiohh.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.fabiohh.popularmovies.R;
 import com.example.fabiohh.popularmovies.models.MovieTrailer;
 
 import java.util.List;
