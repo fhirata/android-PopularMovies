@@ -10,5 +10,11 @@ create a file 'keys.xml' in the resource folder with:
 </resources>
 ```
 
-#### Credits
+### Credits
 App icon was made by Freepik from www.flaticon.com is licensed by CC 3.0 BY
+
+### Screenshots
+![Alt](/images/movies_detail.png "Movies Detail")
+![Alt](/images/movies_popular.png "Popular Tab")
+![Alt](/images/movies_land.png "Landscape View")
+![Alt](/images/movies_favorite.png "Favorites Tab")
